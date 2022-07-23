@@ -1,0 +1,79 @@
+<html>
+<p> please write only numbers!</p> <input id="cost"/>
+<button id="submit">submit</button>
+<p>Earings:<span id="total_earings"></span></p>
+<ul id="earings"></ul>
+<p>Expense:<span id="total_expenses"></span></p>
+<ul id="expense"></ul>
+<p>Balance:<span id="total"></span></p>
+
+<p id="error"></p>
+<script>
+var input, earings, expense, balance;
+
+// Describe this function...
+function balance2() {
+  if(--window.LoopTrap <= 0) throw "Infinite loop.";
+  let element_total = document.getElementById('total');
+  element_total.innerText = balance.reduce((a,b) => a+b, 0);
+}
+
+// Describe this function...
+function check_amount() {
+  if(--window.LoopTrap <= 0) throw "Infinite loop.";
+  if (input.slice(-1)[0] >= 0) {
+    earings.unshift(input.slice(-1)[0]);
+    let element_earings = document.getElementById('earings');
+    let new_li = document.createElement('li');
+    new_li.innerText = earings[0];
+
+    element_earings.appendChild(new_li);
+    element_earings.style.backgroundColor = '#ff99ff';
+    let element_total_earings = document.getElementById('total_earings');
+    element_total_earings.innerText = earings.reduce((a,b) => a+b, 0);
+    balance.unshift(earings[0]);
+  } else if (input.slice(-1)[0] < 0) {
+    expense.unshift(input.pop());
+    let element_expense = document.getElementById('expense');
+    let new_li2 = document.createElement('li');
+    new_li2.innerText = expense[0];
+
+    element_expense.appendChild(new_li2);
+    element_expense.style.backgroundColor = '#9999ff';
+    let element_total_expenses = document.getElementById('total_expenses');
+    element_total_expenses.innerText = expense.reduce((a,b) => a+b, 0);
+    balance.unshift(expense[0]);
+  }
+}
+
+function getNumberOrString(value) {
+  // Convert a string value to a number if possible
+  let number_value = Number(value);
+  if (Number.isNaN(number_value)) {
+    return value
+  } else {
+    return number_value
+  }
+}
+
+// Describe this function...
+function input_counting() {
+  if(--window.LoopTrap <= 0) throw "Infinite loop.";
+  input.unshift(getNumberOrString(document.getElementById('cost').value));
+}
+
+
+input = [];
+earings = [];
+expense = [];
+balance = [];
+
+
+document.getElementById('submit').addEventListener('click', (event) => {
+  input_counting();
+  check_amount();
+  balance2();
+
+});
+</script>
+</html>
